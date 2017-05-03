@@ -17,7 +17,6 @@ https://github.com/vibhorkum/pg_background
 	2(standby1, standby2…)
 * After demoting the synchronous standby to asynchronous, send an e-mail to DBAs group to notify them about demotion and DBAs can take necessary steps. In EDB Postgres, we have a package UTL_SMTP, which can be used for sending e-mails. Following is an example of such procedure:
 ```sql
-
 CREATE OR REPLACE PROCEDURE send_mail (
     p_sender        VARCHAR2,
     p_recipient     VARCHAR2,
@@ -44,7 +43,7 @@ BEGIN
         , 1, 32767));
     UTL_SMTP.QUIT(v_conn);
 END;
-```sql
+```
 
 * If none of standbys are available, then maintain the setting of synchronous_standby_names as given below:
 synchronous_standby_names = 1(standby1, standby2,)
@@ -56,9 +55,9 @@ Above setting will cover the scenario, where write should be stopped or should b
 ### Manual execution:
 ```sql
 exec Transition_sync_async(allowed_slots_lag in bytes, <sender e-mail id>, <receiver email id>
-```sql
+```
 
 ### Example:
 ```sql
 exec Transition_sync_async(1073741824, 'abc@gmail.com', 'dbas@gmail.com');
-```sql
+```
